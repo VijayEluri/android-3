@@ -2,4 +2,7 @@
 <resources>
     <string name="hello">Hello World, texteditor!</string>
     <string name="app_name">Text Editor</string>
+<string name="open">Open</string>
+<string name="save">Save</string>
+<string name="delete">Delete</string>
 </resources>
