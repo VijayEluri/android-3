@@ -1,10 +1,14 @@
 package org.android.liunx;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 public class texteditor extends Activity {
@@ -67,11 +71,37 @@ public class texteditor extends Activity {
      */
     @Override
     protected Dialog onCreateDialog(int id) {
+    	final View dialogview;
     	// the switch sentence
     	switch (id) {
     	case DIALOG_OPEN:
+    		LayoutInflater customflater = LayoutInflater.from(this);
+    		dialogview = customflater.inflate(R.layout.open, null);
     		Toast.makeText(this, "Dialog open", Toast.LENGTH_LONG).show();
-    		break;
+    		return new AlertDialog.Builder(this)
+    		.setTitle("Open the file")
+    		.setIcon(R.drawable.icon)
+    		.setView(dialogview)
+    		.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+					dialog.cancel();
+					//Toast.makeText(this, "Ok", Toast.LENGTH_LONG).show();
+					return;
+					
+				}
+			})
+			.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+					
+				}
+			})
+    		.create();
     	case DIALOG_SAVE:
     		Toast.makeText(this, "Dialog save", Toast.LENGTH_LONG).show();
     		break;
