@@ -1,5 +1,11 @@
 package org.android.liunx;
 
+import static android.widget.Toast.makeText;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -9,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 public class texteditor extends Activity {
@@ -20,11 +27,15 @@ public class texteditor extends Activity {
 	private static final int DIALOG_OPEN = 1;
 	private static final int DIALOG_SAVE = 2;
 	private static final int DIALOG_DELETE = 4;
+	// save edit text
+	//private EditText saveContents;
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        // R.layout.save not initialized at the moment
+        //saveContents = (EditText) this.findViewById(R.id.EditText01);
     }
     
     /**
@@ -75,9 +86,14 @@ public class texteditor extends Activity {
     	// the switch sentence
     	switch (id) {
     	case DIALOG_OPEN:
-    		LayoutInflater customflater = LayoutInflater.from(this);
-    		dialogview = customflater.inflate(R.layout.open, null);
+    		LayoutInflater openflater = LayoutInflater.from(this);
+    		dialogview = openflater.inflate(R.layout.open, null);
     		Toast.makeText(this, "Dialog open", Toast.LENGTH_LONG).show();
+    		String[] flist = this.fileList();
+    		int i;
+    		for (i = 0; i < flist.length; i++) {
+    			Toast.makeText(this, flist[i].toString(), Toast.LENGTH_LONG).show();
+    		}
     		return new AlertDialog.Builder(this)
     		.setTitle("Open the file")
     		.setIcon(R.drawable.icon)
@@ -103,11 +119,68 @@ public class texteditor extends Activity {
 			})
     		.create();
     	case DIALOG_SAVE:
+    		LayoutInflater saveflater = LayoutInflater.from(this);
+    		dialogview = saveflater.inflate(R.layout.save, null);
     		Toast.makeText(this, "Dialog save", Toast.LENGTH_LONG).show();
-    		break;
+    		return new AlertDialog.Builder(this)
+    		.setTitle("Save file")
+    		.setIcon(R.drawable.icon)
+    		.setView(dialogview)
+    		.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// Get the input file name 
+					EditText saveview = (EditText) dialogview.findViewById(R.id.EditText01);
+					String filename = saveview.getText().toString();
+					try {
+						FileOutputStream fOut = openFileOutput(filename, MODE_WORLD_READABLE);
+						OutputStreamWriter osw = new OutputStreamWriter(fOut);
+						osw.write("Hello, World!");
+						osw.flush();
+						osw.close();
+					} catch (IOException ioe) {
+						ioe.printStackTrace();
+					}
+					
+				}
+			})
+			.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+					
+				}
+			})
+    		.create();
     	case DIALOG_DELETE:
+    		LayoutInflater deleteflater = LayoutInflater.from(this);
+    		dialogview = deleteflater.inflate(R.layout.delete, null);
     		Toast.makeText(this, "Dialog delete", Toast.LENGTH_LONG).show();
-    		break;
+    		return new AlertDialog.Builder(this)
+    		.setTitle("Delete file")
+    		.setIcon(R.drawable.icon)
+    		.setView(dialogview)
+    		.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+					dialog.cancel();
+					//Toast.makeText(this, "Ok", Toast.LENGTH_LONG).show();
+					return;
+					
+				}
+			})
+			.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+					
+				}
+			})
+    		.create();
     	}
     	// we can not return null
     	return null;
