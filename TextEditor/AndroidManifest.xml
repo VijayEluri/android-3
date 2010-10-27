@@ -10,9 +10,9 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-    </application>
+        </activity><activity android:name="OpenFile"></activity>
+    
+</application>
     <uses-sdk android:minSdkVersion="7" />
 
 </manifest> 

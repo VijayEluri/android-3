@@ -1,7 +1,5 @@
 package org.android.liunx;
 
-import static android.widget.Toast.makeText;
-
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -10,6 +8,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -86,6 +85,8 @@ public class texteditor extends Activity {
     	// the switch sentence
     	switch (id) {
     	case DIALOG_OPEN:
+    		Intent intent = new Intent(this, OpenFile.class);
+    	    startActivity(intent);
     		LayoutInflater openflater = LayoutInflater.from(this);
     		dialogview = openflater.inflate(R.layout.open, null);
     		Toast.makeText(this, "Dialog open", Toast.LENGTH_LONG).show();
