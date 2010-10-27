@@ -1,7 +1,9 @@
 package org.android.liunx;
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
 import android.app.Activity;
@@ -14,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -77,7 +80,7 @@ public class texteditor extends Activity {
     	return retval;
     }
     /**
-     * when howDialog, onDialogCreate will be called 
+     * when showDialog, onDialogCreate will be called 
      */
     @Override
     protected Dialog onCreateDialog(int id) {
@@ -85,40 +88,47 @@ public class texteditor extends Activity {
     	// the switch sentence
     	switch (id) {
     	case DIALOG_OPEN:
-    		Intent intent = new Intent(this, OpenFile.class);
-    	    startActivity(intent);
+    		//Intent intent = new Intent(this, OpenFile.class);
+    	    //startActivity(intent);
     		LayoutInflater openflater = LayoutInflater.from(this);
     		dialogview = openflater.inflate(R.layout.open, null);
     		Toast.makeText(this, "Dialog open", Toast.LENGTH_LONG).show();
     		String[] flist = this.fileList();
-    		int i;
-    		for (i = 0; i < flist.length; i++) {
-    			Toast.makeText(this, flist[i].toString(), Toast.LENGTH_LONG).show();
-    		}
-    		return new AlertDialog.Builder(this)
-    		.setTitle("Open the file")
-    		.setIcon(R.drawable.icon)
-    		.setView(dialogview)
-    		.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
-				
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					// TODO Auto-generated method stub
-					dialog.cancel();
-					//Toast.makeText(this, "Ok", Toast.LENGTH_LONG).show();
-					return;
-					
-				}
-			})
-			.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
-				
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					// TODO Auto-generated method stub
-					
-				}
-			})
-    		.create();
+//    		int i;
+//    		for (i = 0; i < flist.length; i++) {
+//    			Toast.makeText(this, flist[i].toString(), Toast.LENGTH_LONG).show();
+//    		}
+    		final String[] items = flist;
+    		
+            return new AlertDialog.Builder(this)
+            .setTitle("Open a file")
+            .setItems(flist, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+
+                    /* User clicked so do some stuff */
+//                    new AlertDialog.Builder(texteditor.this)
+//                            .setMessage("You selected: " + which + " , " + items[which])
+//                            .show();
+                    /* We should use a new activity to do editor work */
+                    Intent intent = new Intent(texteditor.this, OpenFile.class);
+            	    startActivity(intent);
+//            		try {
+//            			// Read the file again
+//            			FileInputStream fIn = openFileInput(items[which].toString());
+//            			InputStreamReader isr = new InputStreamReader(fIn);
+//            			// We have to ready a buf to store the contents
+//            			char[] InputBuffer = new char[512];
+//            			isr.read(InputBuffer);
+//            			// then close the file
+//            			isr.close();
+//            			
+//            		} catch (IOException ioe) {
+//            			ioe.printStackTrace();
+//            		
+//            		}
+                }
+            })
+            .create();
     	case DIALOG_SAVE:
     		LayoutInflater saveflater = LayoutInflater.from(this);
     		dialogview = saveflater.inflate(R.layout.save, null);
