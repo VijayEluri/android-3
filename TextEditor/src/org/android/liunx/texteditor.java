@@ -29,6 +29,8 @@ public class texteditor extends Activity {
 	private static final int DIALOG_OPEN = 1;
 	private static final int DIALOG_SAVE = 2;
 	private static final int DIALOG_DELETE = 4;
+	
+	static String filename = "Hello, Liunx";
 	// save edit text
 	//private EditText saveContents;
     /** Called when the activity is first created. */
@@ -110,8 +112,15 @@ public class texteditor extends Activity {
 //                            .setMessage("You selected: " + which + " , " + items[which])
 //                            .show();
                     /* We should use a new activity to do editor work */
+                	//texteditor.filename = items[which];
                     Intent intent = new Intent(texteditor.this, OpenFile.class);
-            	    startActivity(intent);
+                    /* Pass the message to the new activitity */
+                    //intent.putExtra(texteditor.filename, which);
+                    //intent.putExtra("FileName", items[which]);
+                    Bundle b = new Bundle();
+                    b.putString("DEFAULTTEXT", items[which]);
+                    intent.putExtras(b);
+                    startActivity(intent);
 //            		try {
 //            			// Read the file again
 //            			FileInputStream fIn = openFileInput(items[which].toString());
