@@ -42,6 +42,7 @@ public class texteditor extends Activity {
         //saveContents = (EditText) this.findViewById(R.id.EditText01);
     }
     
+    
     /**
      * We can do open/save/delete operations with menu 
      */
@@ -121,20 +122,7 @@ public class texteditor extends Activity {
                     b.putString("DEFAULTTEXT", items[which]);
                     intent.putExtras(b);
                     startActivity(intent);
-//            		try {
-//            			// Read the file again
-//            			FileInputStream fIn = openFileInput(items[which].toString());
-//            			InputStreamReader isr = new InputStreamReader(fIn);
-//            			// We have to ready a buf to store the contents
-//            			char[] InputBuffer = new char[512];
-//            			isr.read(InputBuffer);
-//            			// then close the file
-//            			isr.close();
-//            			
-//            		} catch (IOException ioe) {
-//            			ioe.printStackTrace();
-//            		
-//            		}
+
                 }
             })
             .create();
